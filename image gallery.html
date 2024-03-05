@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Image Gallery</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+    <style>
+        .gallery-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+        }
+        .gallery-item {
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 5px;
+            width: calc(100% / 3 - 10px);
+            box-shadow: 0 0 5px rgba(0,0,0,0.2);
+            cursor: pointer;
+            transition: transform 0.2s ease;
+        }
+        .gallery-item:hover {
+            transform: scale(1.05);
+        }
+        .image-details {
+            text-align: center;
+            padding: 20px;
+        }
+        img {
+            width: 100%;
+            height: auto;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body ng-app="imageGalleryApp" ng-controller="GalleryController as galleryCtrl">
+
+<div class="gallery-container">
+    <div class="gallery-item" ng-repeat="image in galleryCtrl.images" ng-click="galleryCtrl.selectImage(image)">
+        <img ng-src="{{image.src}}" alt="{{image.alt}}">
+    </div>
+</div>
+
+<div class="image-details" ng-if="galleryCtrl.selectedImage">
+    <h2>{{galleryCtrl.selectedImage.title}}</h2>
+    <img ng-src="{{galleryCtrl.selectedImage.src}}" alt="{{galleryCtrl.selectedImage.alt}}">
+    <p>{{galleryCtrl.selectedImage.description}}</p>
+</div>
+
+<script>
+    angular.module('imageGalleryApp', [])
+    .controller('GalleryController', function() {
+        this.images = [
+            { src: 'https://hips.hearstapps.com/hmg-prod/images/cute-baby-animals-1558535060.jpg', alt: 'Image 1', title: 'Image One', description: 'Description of image one.' },
+            { src: 'https://images.pexels.com/photos/47547/squirrel-animal-cute-rodents-47547.jpeg?cs=srgb&dl=pexels-pixabay-47547.jpg&fm=jpg', alt: 'Image 2', title: 'Image Two', description: 'Description of image two.' },
+            { src: 'https://img.freepik.com/free-photo/closeup-shot-one-ginger-cat-hugging-licking-other-isolated-white-wall_181624-32893.jpg?w=740&t=st=1709616784~exp=1709617384~hmac=7ec8830d04e6c0e52ea9c8dc9c4e84487044fdd7168bb47cbbf088f0ae154502', alt: 'Image 3', title: 'Image Three' },
+            // Add more images as needed
+        ];
+
+        this.selectedImage = null;
+
+        this.selectImage = function(image) {
+            this.selectedImage = image;
+        };
+    });
+</script>
+
+</body>
+</html>
